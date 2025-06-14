@@ -5,13 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.MYSQLHOST,
-      port: +process.env.MYSQLPORT,
-      username: process.env.MYSQLUSER,
-      password: process.env.MYSQLPASSWORD,
-      database: process.env.MYSQLDATABASE,
-      autoLoadEntities: true,
+      host: process.env.MYSQLHOST || 'localhost',
+      port: +(process.env.MYSQLPORT || 3306),
+      username: process.env.MYSQLUSER || 'root',
+      password: process.env.MYSQLPASSWORD || '',
+      database: process.env.MYSQLDATABASE || 'railway',
       synchronize: true,
+      autoLoadEntities: true,
     }),
   ],
 })
