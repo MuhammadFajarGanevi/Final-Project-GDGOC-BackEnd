@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { IsNotEmpty, IsOptional } from 'class-validator';
-
-export class UpdateItemDto {
+export class UpdateUserDate {
   @IsOptional()
-  read_page?: number;
+  name?: string;
 
   @IsNotEmpty()
-  reading: boolean;
+  new_password: string;
+
+  @IsOptional()
+  role?: string;
 }

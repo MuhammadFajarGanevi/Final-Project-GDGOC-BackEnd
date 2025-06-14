@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Reading } from 'src/modules/reading/entities/reading.entity';
 
 @Entity('books')
 export class Item {
@@ -17,17 +18,14 @@ export class Item {
   @Column()
   publisher: string;
 
-  @Column({ default: false })
-  reading: boolean;
-
   @Column()
   page_count: number;
 
-  @Column({ default: 0, nullable: true })
-  read_page: number;
-
   @Column()
   year: number;
+
+  @OneToMany(() => Reading, (reading) => reading.item)
+  readings: Reading[];
 
   @Column({ type: 'timestamp' })
   created_at: Date;

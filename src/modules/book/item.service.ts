@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
-import { UpdateItemDto } from './dto/update-item.dto';
+// import { UpdateItemDto } from './dto/update-item.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Item } from './entities/item.entity';
 import { Repository } from 'typeorm';
@@ -33,11 +33,8 @@ export class ItemService {
     const filteredItems = items.filter((item) => item.deleted_at === null);
 
     const result = filteredItems.map((item) => {
-      const status =
-        item.read_page !== item.page_count ? 'unfinished' : 'finished';
       return {
         ...item,
-        status,
       };
     });
 
@@ -54,22 +51,32 @@ export class ItemService {
     return item;
   }
 
-  async update(id: number, updateItemDto: UpdateItemDto) {
-    const item = await this.itemRepository.findOneBy({ id });
+  // async update(id: number, updateItemDto: UpdateItemDto) {
+  //   const item = await this.itemRepository.findOneBy({ id });
 
-    if (!item || item.deleted_at !== null) {
-      throw new NotFoundException(`Item dengan id ${id} tidak ditemukan`);
-    }
+  //   if (!item || item.deleted_at !== null) {
+  //     throw new NotFoundException(`Item dengan id ${id} tidak ditemukan`);
+  //   }
 
-    // Update field
-    item.reading = updateItemDto.reading ?? item.reading;
-    item.read_page = updateItemDto.read_page ?? item.read_page;
-    item.updated_at = new Date();
+  //   // Update field
+  //   // item.reading = updateItemDto.reading ?? item.reading;
+  //   // item.read_page = updateItemDto.read_page ?? item.read_page;
+  //   item.updated_at = new Date();
 
-    await this.itemRepository.save(item);
+  //   await this.itemRepository.save(item);
+  //   const status =
+  //     item.read_page != item.page_count ? 'unfinished' : 'finished';
 
-    return item;
-  }
+  //   return {
+  //     item: {
+  //       id: item.id,
+  //       name: item.name,
+  //       reading: item.reading,
+  //       page_count: item.page_count,
+  //     },
+  //     status,
+  //   };
+  // }
 
   async remove(id: number) {
     const item = await this.itemRepository.findOneBy({ id });

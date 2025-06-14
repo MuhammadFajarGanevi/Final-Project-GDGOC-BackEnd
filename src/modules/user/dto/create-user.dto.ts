@@ -1,21 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { IsNotEmpty } from 'class-validator';
-export class CreateItemDto {
+export class CreateUserDto {
   @IsNotEmpty()
   name: string;
 
   @IsNotEmpty()
-  year: number;
+  email: string;
 
   @IsNotEmpty()
-  author: string;
+  password: string;
 
   @IsNotEmpty()
-  summary: string;
-
-  @IsNotEmpty()
-  publisher: string;
-
-  @IsNotEmpty()
-  page_count: number;
+  role: string;
 }

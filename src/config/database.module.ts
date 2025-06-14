@@ -5,11 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'mysql.railway.internal',
+      host: '127.0.0.1',
       port: 3306,
       username: 'root',
-      password: 'UhVwuNXBHLHJkkihoTRJSNGZCHgFumKO',
-      database: 'railway',
+      password: '',
+      database: 'backend_gdgoc',
       synchronize: true,
       autoLoadEntities: true,
     }),
