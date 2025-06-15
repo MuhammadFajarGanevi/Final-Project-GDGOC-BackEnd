@@ -24,20 +24,37 @@ export class ItemService {
     item.created_at = new Date();
     item.updated_at = new Date();
 
-    await this.itemRepository.save(item);
+    const savedItem = await this.itemRepository.save(item);
+
+    return {
+      status: 'success',
+      message: 'Buku Berhasil di tambah',
+      data: {
+        id: savedItem.id,
+        name: savedItem.name,
+      },
+    };
   }
 
   async findAll() {
     const items = await this.itemRepository.find();
 
+    // Filter hanya yang belum dihapus (deleted_at === null)
     const filteredItems = items.filter((item) => item.deleted_at === null);
 
+    // Tambahkan status berdasarkan read_page vs page_count
     const result = filteredItems.map((item) => {
       const status =
         item.read_page !== item.page_count ? 'unfinished' : 'finished';
+
       return {
-        ...item,
-        status,
+        id: item.id,
+        name: item.name,
+        publisher: item.publisher,
+        read_page: item.read_page,
+        reading: item.reading,
+        page_count: item.page_count,
+        status, // tambah status di akhir
       };
     });
 
@@ -62,13 +79,23 @@ export class ItemService {
     }
 
     // Update field
-    item.reading = updateItemDto.reading ?? item.reading;
-    item.read_page = updateItemDto.read_page ?? item.read_page;
+    item.reading = updateItemDto.reading;
+    item.read_page = updateItemDto.read_page;
+    item.name = updateItemDto.name ?? item.name;
+    item.year = updateItemDto.year ?? item.year;
+    item.author = updateItemDto.author ?? item.author;
+    item.publisher = updateItemDto.publisher ?? item.publisher;
+    item.summary = updateItemDto.summary ?? item.summary;
+    item.page_count = updateItemDto.page_count ?? item.page_count;
+
     item.updated_at = new Date();
 
     await this.itemRepository.save(item);
 
-    return item;
+    return {
+      status: 'success',
+      message: 'Buku Berhasil di perbarui',
+    };
   }
 
   async remove(id: number) {
@@ -82,6 +109,9 @@ export class ItemService {
 
     await this.itemRepository.save(item);
 
-    return `This action removes a #${id} item`;
+    return {
+      status: 'success',
+      message: `Buku dengan id ${item.id} berhasil di hapus`,
+    };
   }
 }
